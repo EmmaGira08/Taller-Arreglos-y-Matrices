@@ -26,12 +26,25 @@ public class MegaMundial {
     // Matriz global para la carga de banderas
     private static char[][] matriz = new char[480][15];
 
+	public static final String YELLOW_BACKGROUND = "\u001B[43m";
+    	public static final String ORANGE_BACKGROUND = "\u001B[48;5;208m";
+    	public static final String RED_BACKGROUND = "\u001B[41m";
+    	public static final String PURPLE_BACKGROUND = "\u001B[45m";
+   	 public static final String BLUE_BACKGROUND = "\u001B[44m";
+   	 public static final String GREEN_BACKGROUND = "\u001B[42m";
+   	 public static final String WHITE_BACKGROUND = "\u001B[47m";
+   	 public static final String BLACK_BACKGROUND = "\u001B[40m";
+   	 public static final String BROWN_BACKGROUND = "\u001B[48;5;94m";
+   	 public static final String RESET = "\u001B[0m";
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         cargarMatrizCSV();
 
         int opcion = 0;
         do {
+            mostrarAsciiArt(); // <-- Agrégalo aquí para que se dibuje al iniciar el menú
+      
             System.out.println("\n==================================================");
             System.out.println("   MEGA SISTEMA MUNDIAL 2026 - CONSOLE EDITION   ");
             System.out.println("==================================================");
@@ -180,21 +193,25 @@ public class MegaMundial {
                 imprimirColor(matriz[fila][columna]);
             }
             System.out.println();
-        }
+	}
+  } 
+        
+    
+	private static void imprimirColor(char c) {
+        	if (c == '1') System.out.print(YELLOW_BACKGROUND + "   ");
+        	if (c == '2') System.out.print(ORANGE_BACKGROUND + "   ");
+        	if (c == '3') System.out.print(RED_BACKGROUND + "   ");
+        	if (c == '4') System.out.print(PURPLE_BACKGROUND + "   ");
+        	if (c == '5') System.out.print(BLUE_BACKGROUND + "   ");
+        	if (c == '6') System.out.print(GREEN_BACKGROUND + "   ");
+        	if (c == '7') System.out.print(WHITE_BACKGROUND + "   ");
+        	if (c == '8') System.out.print(BLACK_BACKGROUND + "   ");
+        	if (c == '9') System.out.print(BROWN_BACKGROUND + "   ");
+        	System.out.print(RESET);
     }
 
-    private static void imprimirColor(char c) {
-        if (c == '1') System.out.print(ConsoleColors.YELLOW_BACKGROUND + "   ");
-        if (c == '2') System.out.print(ConsoleColors.ORANGE_BACKGROUND + "   ");
-        if (c == '3') System.out.print(ConsoleColors.RED_BACKGROUND + "   ");
-        if (c == '4') System.out.print(ConsoleColors.PURPLE_BACKGROUND + "   ");
-        if (c == '5') System.out.print(ConsoleColors.BLUE_BACKGROUND + "   ");
-        if (c == '6') System.out.print(ConsoleColors.GREEN_BACKGROUND + "   ");
-        if (c == '7') System.out.print(ConsoleColors.WHITE_BACKGROUND + "   ");
-        if (c == '8') System.out.print(ConsoleColors.BLACK_BACKGROUND + "   ");
-        if (c == '9') System.out.print(ConsoleColors.BROWN_BACKGROUND + "   ");
-        System.out.print(ConsoleColors.RESET);
-    }
+
+       
 
     private static void mostrarInformacionPais(int num) {
         String pais = PAISES[num - 1];
@@ -417,7 +434,8 @@ public class MegaMundial {
     // =========================================================================
     // 4. CALENDARIO DE PARTIDOS
     // =========================================================================
-    private static void menuCalendario(Scanner sc) {
+   
+ private static void menuCalendario(Scanner sc) {
         System.out.println("\n=== CALENDARIO DE PARTIDOS DESTACADOS ===");
         System.out.println("1. Ver Calendario Completo por Fechas");
         System.out.println("2. Buscar Partidos por País");
@@ -446,5 +464,14 @@ public class MegaMundial {
                 System.out.println("País inválido.");
             }
         }
+}
+
+    private static void mostrarAsciiArt() {
+        System.out.println("  __  __ _____ ____    __  __ _    _ _   _ _____ ___  _      ");
+        System.out.println(" |  \\/  | ____/ ___|  |  \\/  | |  | | \\ | | ____/ _ \\| |     ");
+        System.out.println(" | |\\/| |  _| \\___ \\  | |\\/| | |  | |  \\| |  _| | | | | |     ");
+        System.out.println(" | |  | | |___ ___) | | |  | | |__| | |\\  | |___| |_| | |___  ");
+        System.out.println(" |_|  |_|_____|____/  |_|  |_|\\____/|_| \\_|_____|\\___/|_____| ");
+        System.out.println("===============================================================");
     }
 }
