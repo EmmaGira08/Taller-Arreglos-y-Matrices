@@ -13,11 +13,16 @@
 ## Programas 
 **ConsoleColors.java:** En este programa encontrarás el estandar de los colores para las banderas, sirviendo como extensión al programa principal.
 
-**Banderas.java:** visualización de banderas en la consola a partir del archivo de referencia `Flags.csv`, cargando dinámicamente los datos mediante `BufferedReader` y `FileReader` dentro de una matriz bidimensional de $480 x 15$. 
+**MegaMundial.java:**
+El código MegaMundial.java es un sistema interactivo de consola diseñado para gestionar y visualizar la información de 48 selecciones de fútbol. Su arquitectura se divide en cuatro módulos funcionales:
 
-**TablaPosiciones.java:** Este programa en Java administra la tabla de posiciones de un mundial mediante una matriz de 48 filas por 10 columnas, permitiendo consultar la información de los equipos de forma paginada en la consola, actualizar sus datos manualmente y calcular de manera automática la diferencia de goles y los puntos totales de cada selección.
+- Carga y Renderizado Visual: Utiliza FileReader y BufferedReader para extraer datos del archivo Flags.csv hacia una matriz de caracteres, dibujando las banderas de cada país en la consola mediante códigos de color ANSI.
 
-**CalendarioMundial.java:** Este programa en Java utiliza arreglos y matrices para estructurar el calendario de la fase de grupos del mundial con los 48 equipos divididos en 12 grupos, permitiendo al usuario, mediante lecturas estandarizadas con `ConsoleInput.java`, consultar todos los partidos programados por grupo o ingresar el número de un enfrentamiento específico para visualizar la fecha, hora e integrantes de dicho encuentro.
+- Fichas Técnicas: Integra estructuras de datos estáticas (arrays y sentencias switch) para almacenar y desplegar la capital, el historial de participaciones mundialistas y la nómina de los 11 jugadores titulares de cada selección.
+
+- Gestión Deportiva: Implementa una tabla de posiciones bidimensional que el usuario puede modificar en tiempo real. Cuenta con validaciones lógicas estrictas para evitar inconsistencias, como ingresar estadísticas negativas o superar el límite de 3 partidos por equipo en la fase de grupos.
+
+Calendario de Encuentros: Proporciona un cronograma general estructurado por fases (desde grupos hasta la final) y una herramienta de búsqueda rápida para localizar el próximo partido programado de cualquier país.
 
 ## Colaboración global
 En este trabajo se colaboró con toda la clase para crear un solo programa que contiene la visualización de las banderas de 48 países y su respectiva información como su capital, participaciones en mundiales y sus 11 titulares.
