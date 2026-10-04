@@ -22,7 +22,9 @@ El código MegaMundial.java es un sistema interactivo de consola diseñado para 
 
 - Gestión Deportiva: Implementa una tabla de posiciones bidimensional que el usuario puede modificar en tiempo real. Cuenta con validaciones lógicas estrictas para evitar inconsistencias, como ingresar estadísticas negativas o superar el límite de 3 partidos por equipo en la fase de grupos.
 
-Calendario de Encuentros: Proporciona un cronograma general estructurado por fases (desde grupos hasta la final) y una herramienta de búsqueda rápida para localizar el próximo partido programado de cualquier país.
+- Calendario de Encuentros: Proporciona un cronograma general estructurado por fases (desde grupos hasta la final) y una herramienta de búsqueda rápida para localizar el próximo partido programado de cualquier país.
+
+- Archivo Banderas: Para la generación de las banderas apartir de matrices se creó un archivo "csv" en colaboración grupal con las banderas ya diseñadas para mayor fácilidad a la hora de crear el código  
 
 ## Colaboración global
 En este trabajo se colaboró con toda la clase para crear un solo programa que contiene la visualización de las banderas de 48 países y su respectiva información como su capital, participaciones en mundiales y sus 11 titulares.
