@@ -26,32 +26,33 @@ public class MegaMundial {
     // Matriz global para la carga de banderas
     private static char[][] matriz = new char[480][15];
 
-	public static final String YELLOW_BACKGROUND = "\u001B[43m";
-    	public static final String ORANGE_BACKGROUND = "\u001B[48;5;208m";
-    	public static final String RED_BACKGROUND = "\u001B[41m";
-    	public static final String PURPLE_BACKGROUND = "\u001B[45m";
-   	 public static final String BLUE_BACKGROUND = "\u001B[44m";
-   	 public static final String GREEN_BACKGROUND = "\u001B[42m";
-   	 public static final String WHITE_BACKGROUND = "\u001B[47m";
-   	 public static final String BLACK_BACKGROUND = "\u001B[40m";
-   	 public static final String BROWN_BACKGROUND = "\u001B[48;5;94m";
-   	 public static final String RESET = "\u001B[0m";
+    public static final String YELLOW_BACKGROUND = "\u001B[43m";
+    public static final String ORANGE_BACKGROUND = "\u001B[48;5;208m";
+    public static final String RED_BACKGROUND = "\u001B[41m";
+    public static final String PURPLE_BACKGROUND = "\u001B[45m";
+    public static final String BLUE_BACKGROUND = "\u001B[44m";
+    public static final String GREEN_BACKGROUND = "\u001B[42m";
+    public static final String WHITE_BACKGROUND = "\u001B[47m";
+    public static final String BLACK_BACKGROUND = "\u001B[40m";
+    public static final String BROWN_BACKGROUND = "\u001B[48;5;94m";
+    public static final String RESET = "\u001B[0m";
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         cargarMatrizCSV();
 
         int opcion = 0;
+        mostrarAsciiArt(); // Se dibuja solo una vez al inicio del programa
+
         do {
-            mostrarAsciiArt(); // <-- Agrégalo aquí para que se dibuje al iniciar el menú
-      
-            System.out.println("\n==================================================");
-            System.out.println("   MEGA SISTEMA MUNDIAL 2026 - CONSOLE EDITION   ");
-            System.out.println("==================================================");
-            System.out.println("1. Consultar Selección (Bandera e Información Completa)");
-            System.out.println("2. Tabla de Posiciones (Ver y Modificar)");
-            System.out.println("3. Calendario de Partidos");
-            System.out.println("4. Salir");
+            System.out.println("\n╔════════════════════════════════════════════════════╗");
+            System.out.println("║    MEGA SISTEMA MUNDIAL 2026 - CONSOLE EDITION     ║");
+            System.out.println("╠════════════════════════════════════════════════════╣");
+            System.out.println("║ 1. Consultar Selección (Bandera e Info Completa)   ║");
+            System.out.println("║ 2. Tabla de Posiciones (Ver paginada y Modificar)  ║");
+            System.out.println("║ 3. Calendario de Partidos                          ║");
+            System.out.println("║ 4. Salir                                           ║");
+            System.out.println("╚════════════════════════════════════════════════════╝");
             System.out.print("Seleccione una opción: ");
 
             try {
@@ -59,27 +60,47 @@ public class MegaMundial {
                 switch (opcion) {
                     case 1:
                         menuBanderaEInformacion(sc);
+                        esperarEnter();
                         break;
                     case 2:
                         menuTablaPosiciones(sc);
                         break;
                     case 3:
                         menuCalendario(sc);
+                        esperarEnter();
                         break;
                     case 4:
                         System.out.println("\n¡Gracias por usar el Mega Sistema Mundial!");
                         break;
                     default:
                         System.out.println("Opción inválida. Ingrese un número entre 1 y 4.");
+                        esperarEnter();
                 }
             } catch (Exception e) {
                 System.out.println("Error: Entrada inválida. Intente de nuevo.");
                 sc.nextLine(); // Limpiar buffer
                 opcion = 0;
+                esperarEnter();
             }
         } while (opcion != 4);
 
         sc.close();
+    }
+
+    // =========================================================================
+    // CONTROL DE INTERFAZ: PAUSA
+    // =========================================================================
+    private static void esperarEnter() {
+        System.out.println("\n[Presione ENTER para continuar y volver al menú...]");
+        try {
+            System.in.read();
+            // Limpia el buffer en caso de que queden caracteres residuales
+            while (System.in.available() > 0) {
+                System.in.read();
+            }
+        } catch (Exception e) {
+            // Ignorar excepciones de lectura de consola
+        }
     }
 
     // =========================================================================
@@ -110,13 +131,13 @@ public class MegaMundial {
     // 2. MÓDULO UNIFICADO: BANDERAS + FICHA TÉCNICA
     // =========================================================================
     private static void menuBanderaEInformacion(Scanner sc) {
-        System.out.println("\n+------+---------------------------+");
-        System.out.println("| Case | País                      |");
-        System.out.println("+------+---------------------------+");
+        System.out.println("\n╔════╦═══════════════════════════╗");
+        System.out.println("║ ID ║ País                      ║");
+        System.out.println("╠════╬═══════════════════════════╣");
         for (int i = 0; i < PAISES.length; i++) {
-            System.out.println("| " + (i + 1) + "\t| " + PAISES[i]);
+            System.out.printf("║ %-2d ║ %-25s ║\n", (i + 1), PAISES[i]);
         }
-        System.out.println("+------+---------------------------+");
+        System.out.println("╚════╩═══════════════════════════╝");
         System.out.print("Ingresa el número de bandera (1-48): ");
         int flag = sc.nextInt();
 
@@ -193,25 +214,21 @@ public class MegaMundial {
                 imprimirColor(matriz[fila][columna]);
             }
             System.out.println();
-	}
-  } 
-        
-    
-	private static void imprimirColor(char c) {
-        	if (c == '1') System.out.print(YELLOW_BACKGROUND + "   ");
-        	if (c == '2') System.out.print(ORANGE_BACKGROUND + "   ");
-        	if (c == '3') System.out.print(RED_BACKGROUND + "   ");
-        	if (c == '4') System.out.print(PURPLE_BACKGROUND + "   ");
-        	if (c == '5') System.out.print(BLUE_BACKGROUND + "   ");
-        	if (c == '6') System.out.print(GREEN_BACKGROUND + "   ");
-        	if (c == '7') System.out.print(WHITE_BACKGROUND + "   ");
-        	if (c == '8') System.out.print(BLACK_BACKGROUND + "   ");
-        	if (c == '9') System.out.print(BROWN_BACKGROUND + "   ");
-        	System.out.print(RESET);
+        }
     }
 
-
-       
+    private static void imprimirColor(char c) {
+        if (c == '1') System.out.print(YELLOW_BACKGROUND + "   ");
+        if (c == '2') System.out.print(ORANGE_BACKGROUND + "   ");
+        if (c == '3') System.out.print(RED_BACKGROUND + "   ");
+        if (c == '4') System.out.print(PURPLE_BACKGROUND + "   ");
+        if (c == '5') System.out.print(BLUE_BACKGROUND + "   ");
+        if (c == '6') System.out.print(GREEN_BACKGROUND + "   ");
+        if (c == '7') System.out.print(WHITE_BACKGROUND + "   ");
+        if (c == '8') System.out.print(BLACK_BACKGROUND + "   ");
+        if (c == '9') System.out.print(BROWN_BACKGROUND + "   ");
+        System.out.print(RESET);
+    }
 
     private static void mostrarInformacionPais(int num) {
         String pais = PAISES[num - 1];
@@ -219,17 +236,17 @@ public class MegaMundial {
         int participaciones = getParticipacionesMundiales(num);
         String[] alineacion = getAlineacionTitular(num);
 
-        System.out.println("\n==================================================");
-        System.out.println("       FICHA TÉCNICA Y NÓMINA: " + pais.toUpperCase());
-        System.out.println("==================================================");
-        System.out.println("Capital                     : " + capital);
-        System.out.println("Participaciones en Mundiales: " + participaciones + " ediciones");
-        System.out.println("--------------------------------------------------");
-        System.out.println("ALINEACIÓN TITULAR (11 JUGADORES ACTUALES):");
+        System.out.println("\n╔══════════════════════════════════════════════════╗");
+        System.out.println("║     FICHA TÉCNICA Y NÓMINA: " + String.format("%-20s", pais.toUpperCase()) + " ║");
+        System.out.println("╠══════════════════════════════════════════════════╣");
+        System.out.println("║ Capital                     : " + String.format("%-19s", capital) + "║");
+        System.out.println("║ Participaciones en Mundiales: " + String.format("%-19s", participaciones + " ediciones") + "║");
+        System.out.println("╠══════════════════════════════════════════════════╣");
+        System.out.println("║ ALINEACIÓN TITULAR (11 JUGADORES ACTUALES):      ║");
         for (int i = 0; i < alineacion.length; i++) {
-            System.out.println("  " + (i + 1) + ". " + alineacion[i]);
+            System.out.println("║  " + String.format("%-2d", (i + 1)) + ". " + String.format("%-43s", alineacion[i]) + "║");
         }
-        System.out.println("==================================================");
+        System.out.println("╚══════════════════════════════════════════════════╝");
     }
 
     private static String getCapital(int num) {
@@ -248,139 +265,132 @@ public class MegaMundial {
 
     private static String[] getAlineacionTitular(int num) {
         switch (num) {
-            case 1: // Inglaterra
-                return new String[]{"Jordan Pickford", "Djed Spence", "Ezri Konsa", "Marc Guéhi", "Nico O'Riley", "Declan Rice", "Elliot Anderson", "Buyako Saka", "Jude Bellingham", "Anthony Gordon", "Harry Kane"};
-            case 2: // España
-                return new String[]{"Unai Simon", "Pedro Porro", "Pau Cubarsi", "Aymeric Laporte", "Marc Cucurella", "Rodri Hernandez", "Dani Olmo", "Fabián Ruiz", "Lamine Yamal", "Mikel Oyarzabal", "Álex Baena"};
-            case 3: // Francia
-                return new String[]{"Mike Maignan", "Jules Koundé", "Ibrahima Konaté", "Dayot Upamecano", "Theo Hernández", "Aurélien Tchuamení", "Adrien Rabiot", "Ousmane Dembélé", "Michael Olise", "Désiré Doué", "Kylian Mbappé"};
-            case 4: // Cabo Verde
-                return new String[]{"Vozinha", "Steven Moeira", "Roberto Lopes", "Diney", "Sidny Lopes Cabral", "Kevin Pina", "Laros Duarte", "Ryan Mendes", "Jamiro Monteiro", "Jovane Cabral", "Davilon Livramento"};
-            case 5: // Arabia Saudita
-                return new String[]{"Mohammed Al-Owais", "Abdulelah Alamri", "Saud Abdulhamid", "Moteb Al Harbi", "Hassan Altambakti", "Mohammed Abu Al Shamat", "Mohammed Kanno", "Abdullah Alkhaibari", "Salem Al Dawsari", "Firas Al Breikan", "Musab Al Juwayr"};
-            case 6: // Corea del Sur
-                return new String[]{"Kim Seung-gyu", "Seol Young-woo", "Kim Min-jae", "Cho Yu-min", "Lee Myung-jae", "Hwang In-beom", "Paik Seung-ho", "Lee Kang-in", "Lee Jae-sung", "Hwang Hee-chan", "Son Heung-min"};
-            case 7: // Congo RD
-                return new String[]{"Lionel Mpasi", "Aaron Wan-Bissaka", "Chancel Mbemba", "Axel Tuanzebe", "Joris Kayembe", "Samuel Moutoussamy", "Charles Pickel", "Edo Kayembe", "Yoane Wissa", "Cédric Bakambu", "Meschack Elia"};
-            case 8: // Ecuador
-                return new String[]{"Hernán Galíndez", "Ángelo Preciado", "Joel Ordóñez", "Willian Pacho", "Piero Hincapié", "Moisés Caicedo", "Pedro Vite", "John Yeboah", "Nilson Angulo", "Gonzalo Plata", "Enner Valencia"};
-            case 9: // Estados Unidos
-                return new String[]{"Matt Turner", "Joe Scally", "Chris Richards", "Tim Ream", "Antonee Robinson", "Weston McKennie", "Tyler Adams", "Yunus Musah", "Timothy Weah", "Folarin Balogun", "Christian Pulisic"};
-            case 10: // Argentina
-                return new String[]{"Emiliano Martinez", "Nahuel Molina", "Cristian  Romero", "Nicolás Otamendi", "Nicolás Tagliafico", "Rodrigo De Paul", "Enzo Fernández", "Alexis Mac Allister", "Lionel Messi", "Lautaro Martínez", "Julián Álvarez"};
-            case 11: // Brasil
-                return new String[]{"Alisson", "Danilo", "Marquinhos", "Gabriel Magalhães", "Guilherme Arana", "Bruno Guimarães", "Lucas Paquetá", "Rodrygo", "Raphinha", "Endrick", "Vinícius Jr."};
-            case 12: // Canadá
-                return new String[]{"Maxime Crépeau", "Alistair Johnston", "Moïse Bombito", "Derek Cornelius", "Alphonso Davies", "Jonathan Osorio", "Stephen Eustáquio", "Ismaël Koné", "Tajon Buchanan", "Jonathan David", "Cyle Larin"};
-            case 13: // Costa de Marfil
-                return new String[]{"Yahia Fofana", "Wilfried Singo", "Odilon Kossounou", "Evan Ndicka", "Ghislain Konan", "Franck Kessié", "Jean Michaël Seri", "Seko Fofana", "Simon Adingra", "Sébastien Haller", "Nicolas Pépé"};
-            case 14: // Jordania
-                return new String[]{"Yazan Al-Naimat", "Abdallah Nasib", "Yazan Al-Arab", "Salem Al-Ajalin", "Ehsan Haddad", "Nizar Al-Rashdan", "Noor Al-Rawabdeh", "Mahmoud Al-Mardi", "Mousa Al-Tamari", "Yazan Al-Naimat", "Ali Olwan"};
-            case 15: // Alemania
-                return new String[]{"Manuel Neuer", "Joshua Kimmich", "Jonathan Tah", "Antonio Rüdiger", "David Raum", "Felix Nmecha", "Aleksandar Pavlović", "Leroy Sané", "Jamal Musiala", "Florian Wirtz", "Kai Havertz"};
-            case 16: // Japón
-                return new String[]{"Zion Suzuki", "Hiroki Itō", "Kō Itakura", "Takehiro Tomiyasu", "Ritsu Dōan", "Daichi Kamada", "Kaishu Sano", "Keito Nakamura", "Takefusa Kubo", "Junya Itō", "Ayase Ueda"};
-            case 17: // Colombia
-                return new String[]{"Camilo Vargas", "Daniel Muñoz", "Dávinson Sánchez", "Jhon Lucumí", "Johan Mojica", "Jefferson Lerma", "Richard Ríos", "Jhon Arias", "James Rodríguez", "Luis Díaz", "Jhon Córdoba"};
-            case 18: // Bélgica
-                return new String[]{"Thibaut Courtois", "Timothy Castagne", "Brandon Mechele", "Arthur Theate", "Maxim De Cuyper", "Youri Tielemans", "Hans Vanaken", "Jérémy Doku", "Kevin De Bruyne", "Leandro Trossard", "Charles De Ketelaere"};
-            case 19: // Turquía
-                return new String[]{"Uğurcan Çakır", "Zeki Çelik", "Merih Demiral", "Abdülkerim Bardakcı", "Ferdi Kadıoğlu", "İsmail Yüksek", "Hakan Çalhanoğlu", "Orkun Kökçü", "Arda Güler", "Barış Alper Yılmaz", "Kenan Yıldız"};
-            case 20: // Sudáfrica
-                return new String[]{"Ronwen Williams", "Khuliso Mudau", "Thabiso Sesane", "Nkosinathi Mbokazi", "Aubrey Modiba", "Teboho Mokoena", "Sphephelo Sithole", "Thalente Mbatha", "Oswin Appollis", "Tshepang Moremi", "Lyle Foster"};
-            case 21: // Chequia
-                return new String[]{"Matěj Kovář", "Vladimír Coufal", "Štěpán Chaloupek", "Robin Hranáč", "Ladislav Krejčí", "Jaroslav Zelený", "Tomáš Souček", "Lukáš Provod", "Alexandr Sojka", "Pavel Šulc", "Patrik Schick"};
-            case 22: // Suiza
-                return new String[]{"Yann Sommer", "Silvan Widmer", "Manuel Akanji", "Fabian Schär", "Ricardo Rodríguez", "Granit Xhaka", "Remo Freuler", "Michel Aebischer", "Dan Ndoye", "Breel Embolo", "Ruben Vargas"};
-            case 23: // Portugal
-                return new String[]{"Diogo Costa", "Diogo Dalot", "Rúben Dias", "Pepe", "Nuno Mendes", "João Palhinha", "Vitinha", "Bruno Fernandes", "Bernardo Silva", "Cristiano Ronaldo", "Rafael Leão"};
-            case 24: // Egipto
-                return new String[]{"Mohamed El Shenawy", "Mohamed Hany", "Rami Rabia", "Mohamed Abdelmonem", "Mohamed Hamdy", "Marwan Attia", "Hamdy Fathi", "Zizo", "Mohamed Salah", "Mostafa Mohamed", "Trezeguet"};
-            case 25: // Paraguay
-                return new String[]{"Carlos Coronel", "Iván Ramírez", "Gustavo Gómez", "Omar Alderete", "Matías Espinoza", "Andrés Cubas", "Mathías Villasanti", "Damián Bobadilla", "Miguel Almirón", "Julio Enciso", "Alex Arce"};
-            case 26: // Escocia
-                return new String[]{"Angus Gunn", "Ralston Anthony", "Ryan Porteous", "Grant Hanley", "Kieran Tierney", "Andrew Robertson", "Billy Gilmour", "Callum McGregor", "Scott McTominay", "John McGinn", "Che Adams"};
-            case 27: // Haití
-                return new String[]{"Johny Placide", "Carlens Arcus", "Ricardo Adé", "Jean-Kévin Duverne", "Alex Christian", "Leverton Pierre", "Danley Jean Jacques", "Bryan Alceus", "Duckens Nazon", "Frantzdy Pierrot", "Louicius Don Deedson"};
-            case 28: // Argelia
-                return new String[]{"Amine Gouiri", "Anthony Mandrea", "Yousef Atal", "Aïssa Mandi", "Ramy Bensebaini", "Rayan Aït-Nouri", "Nabil Bentaleb", "Ismaël Bennacer", "Houssem Aouar", "Riyad Mahrez", "Baghdad Bounedjah"};
-            case 29: // México
-                return new String[]{"Luis Malagón", "Jorge Sánchez", "César Montes", "Johan Vásquez", "Jesús Gallardo", "Edson Álvarez", "Luis Chávez", "Erick Sánchez", "Hirving Lozano", "Julián Quiñones", "Santiago Giménez"};
-            case 30: // Marruecos
-                return new String[]{"Yassine Bounou", "Achraf Hakimi", "Nayef Aguerd", "Romain Saïss", "Noussair Mazraoui", "Sofyan Amrabat", "Azzedine Ounahi", "Brahim Díaz", "Hakim Ziyech", "Youssef En-Nesyri", "Sofiane Boufal"};
-            case 31: // Austria
-                return new String[]{"Alexander Schlager", "Stefan Posch", "Kevin Danso", "David Alaba", "Maximilian Wöber", "Nicolas Seiwald", "Xaver Schlager", "Marcel Sabitzer", "Christoph Baumgartner", "Michael Gregoritsch", "Marko Arnautović"};
-            case 32: // Noruega
-                return new String[]{"Ørjan Nyland", "Julian Ryerson", "Kristoffer Ajer", "Torbjørn Heggem", "David Møller Wolfe", "Sander Berge", "Patrick Berg", "Martin Ødegaard", "Alexander Sørloth", "Antonio Nusa", "Erling Haaland"};
-            case 33: // Bosnia y Herzegovina
-                return new String[]{"Nikola Vasilj", "Amar Dedić", "Dennis Hadžikadunić", "Tarik Muharemović", "Sead Kolašinac", "Benjamin Tahirović", "Armin Gigović", "Ivan Bašić", "Esmir Bajraktarević", "Ermedin Demirović", "Edin Džeko"};
-            case 34: // Túnez
-                return new String[]{"Aymen Dahmen", "Yan Valery", "Montassar Talbi", "Omar Rekik", "Ali Abdi", "Ellyes Skhiri", "Rani Khedira", "Hannibal Mejbri", "Elias Achouri", "Ismaël Gharbi", "Hazem Mastouri"};
-            case 35: // Croacia
-                return new String[]{"Dominik Livaković", "Josip Stanišić", "Josip Šutalo", "Joško Gvardiol", "Borna Sosa", "Luka Modrić", "Mateo Kovačić", "Petar Sučić", "Andrej Kramarić", "Ante Budimi", "Ivan Perišić"};
-            case 36: // Países Bajos
-                return new String[]{"Bart Verbruggen", "Denzel Dumfries", "Stefan de Vrij", "Virgil van Dijk", "Nathan Aké", "Jerdy Schouten", "Tijjani Reijnders", "Xavi Simons", "Jeremie Frimpong", "Memphis Depay", "Cody Gakpo"};
-            case 37: // Uruguay
-                return new String[]{"Sergio Rochet", "Nahitan Nández", "Ronald Araújo", "José María Giménez", "Mathías Olivera", "Manuel Ugarte", "Federico Valverde", "Rodrigo Bentancur", "Facundo Pellistri", "Darwin Núñez", "Maximiliano Araújo"};
-            case 38: // Qatar
-                return new String[]{"Meshaal Barsham", "Pedro Miguel", "Lucas Mendes", "Boualem Khoukh", "Tarek Salman", "Fatai Mohed", "Ahmed Fathy", "Jassem Gaber", "Hassan Al-Haydos", "Almoez Ali", "Akram Afif"};
-            case 39: // Australia
-                return new String[]{"Mathew Ryan", "Lewis Miller", "Harry Souttar", "Kye Rowles", "Aziz Behich", "Connor Metcalfe", "Jackson Irvine", "Aiden O'Neill", "Martin Boyle", "Kusini Yengi", "Craig Goodwin"};
-            case 40: // Nueva Zelanda
-                return new String[]{"Max Crocombe", "Tim Payne", "Tyler Bindon", "Nando Pijnaker", "Liberato Cacace", "Joe Bell", "Marko Stamenic", "Matthew Garbett", "Elijah Just", "Chris Wood", "Ben Old"};
-            case 41: // Senegal
-                return new String[]{"Édouard Mendy", "Formose Mendy", "Kalidou Koulibaly", "Moussa Niakhaté", "Ismail Jakobs", "Pape Matar Sarr", "Idrissa Gueye", "Lamine Camara", "Ismaïla Sarr", "Nicolas Jackson", "Sadio Mané"};
-            case 42: // Ghana
-                return new String[]{"Lawrence Ati-Zigi", "Alidu Seidu", "Alexander Djiku", "Mohammed Salisu", "Gideon Mensah", "Thomas Partey", "Salis Abdul Samed", "Mohammed Kudus", "Ernest Nuamah", "Iñaki Williams", "Jordan Ayew"};
-            case 43: // Panamá
-                return new String[]{"Orlando Mosquera", "Michael Amir Murillo", "Edgardo Fariña", "José Córdoba", "Roderick Miller", "Eric Davis", "Adalberto Carrasquilla", "Cristian Martínez", "Yoel Bárcenas", "José Fajardo", "José Luis Rodríguez"};
-            case 44: // Irak
-                return new String[]{"Jalal Hassan", "Hussein Ali", "Saad Natiq", "Rebin Sulaka", "Merchas Doski", "Amir Al-Ammari", "Osama Rashid", "Zidane Iqbal", "Ibrahim Bayesh", "Aymen Hussein", "Ali Jasim"};
-            case 45: // Suecia
-                return new String[]{"Viktor Johansson", "Emil Krafth", "Isak Hien", "Victor Lindelöf", "Ludwig Augustinsson", "Jens Cajuste", "Anton Salétros", "Dejan Kulusevski", "Alexander Isak", "Anthony Elanga", "Viktor Gyökeres"};
-            case 46: // Curazao
-                return new String[]{"Eloy Room", "Nathangelo Markelo", "Sherel Floranus", "Cuco Martina", "Jurien Gaari", "Vurnon Anita", "Juninho Bacuna", "Leandro Bacuna", "Brandley Kuwas", "Rangelo Janga", "Kenji Gorré"};
-            case 47: // Irán
-                return new String[]{"Alireza Beiranvand", "Ramin Rezaeian", "Hossein Kanaanizadegan", "Shojae Khalilzadeh", "Milad Mohammadi", "Saeid Ezatolahi", "Saman Ghoddos", "Ahmad Nourollahi", "Alireza Jahanbakhsh", "Mehdi Taremi", "Sardar Azmoun"};
-            case 48: // Uzbekistán
-                return new String[]{"Utkir Yusupov", "Husniddin Alikulov", "Abdukodir Khusanov", "Umar Eshmurodov", "Sherzod Nasrullaev", "Otabek Shukurov", "Odiljon Hamrobekov", "Azizbek Turgunboev,", "Jaloliddin Masharipov", "Abbasbek Fayzullaev", "Eldor Shomurodov"};
-            default: 
-                return new String[]{};
+            case 1: return new String[]{"Jordan Pickford", "Djed Spence", "Ezri Konsa", "Marc Guéhi", "Nico O'Riley", "Declan Rice", "Elliot Anderson", "Buyako Saka", "Jude Bellingham", "Anthony Gordon", "Harry Kane"};
+            case 2: return new String[]{"Unai Simon", "Pedro Porro", "Pau Cubarsi", "Aymeric Laporte", "Marc Cucurella", "Rodri Hernandez", "Dani Olmo", "Fabián Ruiz", "Lamine Yamal", "Mikel Oyarzabal", "Álex Baena"};
+            case 3: return new String[]{"Mike Maignan", "Jules Koundé", "Ibrahima Konaté", "Dayot Upamecano", "Theo Hernández", "Aurélien Tchuamení", "Adrien Rabiot", "Ousmane Dembélé", "Michael Olise", "Désiré Doué", "Kylian Mbappé"};
+            case 4: return new String[]{"Vozinha", "Steven Moeira", "Roberto Lopes", "Diney", "Sidny Lopes Cabral", "Kevin Pina", "Laros Duarte", "Ryan Mendes", "Jamiro Monteiro", "Jovane Cabral", "Davilon Livramento"};
+            case 5: return new String[]{"Mohammed Al-Owais", "Abdulelah Alamri", "Saud Abdulhamid", "Moteb Al Harbi", "Hassan Altambakti", "Mohammed Abu Al Shamat", "Mohammed Kanno", "Abdullah Alkhaibari", "Salem Al Dawsari", "Firas Al Breikan", "Musab Al Juwayr"};
+            case 6: return new String[]{"Kim Seung-gyu", "Seol Young-woo", "Kim Min-jae", "Cho Yu-min", "Lee Myung-jae", "Hwang In-beom", "Paik Seung-ho", "Lee Kang-in", "Lee Jae-sung", "Hwang Hee-chan", "Son Heung-min"};
+            case 7: return new String[]{"Lionel Mpasi", "Aaron Wan-Bissaka", "Chancel Mbemba", "Axel Tuanzebe", "Joris Kayembe", "Samuel Moutoussamy", "Charles Pickel", "Edo Kayembe", "Yoane Wissa", "Cédric Bakambu", "Meschack Elia"};
+            case 8: return new String[]{"Hernán Galíndez", "Ángelo Preciado", "Joel Ordóñez", "Willian Pacho", "Piero Hincapié", "Moisés Caicedo", "Pedro Vite", "John Yeboah", "Nilson Angulo", "Gonzalo Plata", "Enner Valencia"};
+            case 9: return new String[]{"Matt Turner", "Joe Scally", "Chris Richards", "Tim Ream", "Antonee Robinson", "Weston McKennie", "Tyler Adams", "Yunus Musah", "Timothy Weah", "Folarin Balogun", "Christian Pulisic"};
+            case 10: return new String[]{"Emiliano Martinez", "Nahuel Molina", "Cristian  Romero", "Nicolás Otamendi", "Nicolás Tagliafico", "Rodrigo De Paul", "Enzo Fernández", "Alexis Mac Allister", "Lionel Messi", "Lautaro Martínez", "Julián Álvarez"};
+            case 11: return new String[]{"Alisson", "Danilo", "Marquinhos", "Gabriel Magalhães", "Guilherme Arana", "Bruno Guimarães", "Lucas Paquetá", "Rodrygo", "Raphinha", "Endrick", "Vinícius Jr."};
+            case 12: return new String[]{"Maxime Crépeau", "Alistair Johnston", "Moïse Bombito", "Derek Cornelius", "Alphonso Davies", "Jonathan Osorio", "Stephen Eustáquio", "Ismaël Koné", "Tajon Buchanan", "Jonathan David", "Cyle Larin"};
+            case 13: return new String[]{"Yahia Fofana", "Wilfried Singo", "Odilon Kossounou", "Evan Ndicka", "Ghislain Konan", "Franck Kessié", "Jean Michaël Seri", "Seko Fofana", "Simon Adingra", "Sébastien Haller", "Nicolas Pépé"};
+            case 14: return new String[]{"Yazan Al-Naimat", "Abdallah Nasib", "Yazan Al-Arab", "Salem Al-Ajalin", "Ehsan Haddad", "Nizar Al-Rashdan", "Noor Al-Rawabdeh", "Mahmoud Al-Mardi", "Mousa Al-Tamari", "Yazan Al-Naimat", "Ali Olwan"};
+            case 15: return new String[]{"Manuel Neuer", "Joshua Kimmich", "Jonathan Tah", "Antonio Rüdiger", "David Raum", "Felix Nmecha", "Aleksandar Pavlović", "Leroy Sané", "Jamal Musiala", "Florian Wirtz", "Kai Havertz"};
+            case 16: return new String[]{"Zion Suzuki", "Hiroki Itō", "Kō Itakura", "Takehiro Tomiyasu", "Ritsu Dōan", "Daichi Kamada", "Kaishu Sano", "Keito Nakamura", "Takefusa Kubo", "Junya Itō", "Ayase Ueda"};
+            case 17: return new String[]{"Camilo Vargas", "Daniel Muñoz", "Dávinson Sánchez", "Jhon Lucumí", "Johan Mojica", "Jefferson Lerma", "Richard Ríos", "Jhon Arias", "James Rodríguez", "Luis Díaz", "Jhon Córdoba"};
+            case 18: return new String[]{"Thibaut Courtois", "Timothy Castagne", "Brandon Mechele", "Arthur Theate", "Maxim De Cuyper", "Youri Tielemans", "Hans Vanaken", "Jérémy Doku", "Kevin De Bruyne", "Leandro Trossard", "Charles De Ketelaere"};
+            case 19: return new String[]{"Uğurcan Çakır", "Zeki Çelik", "Merih Demiral", "Abdülkerim Bardakcı", "Ferdi Kadıoğlu", "İsmail Yüksek", "Hakan Çalhanoğlu", "Orkun Kökçü", "Arda Güler", "Barış Alper Yılmaz", "Kenan Yıldız"};
+            case 20: return new String[]{"Ronwen Williams", "Khuliso Mudau", "Thabiso Sesane", "Nkosinathi Mbokazi", "Aubrey Modiba", "Teboho Mokoena", "Sphephelo Sithole", "Thalente Mbatha", "Oswin Appollis", "Tshepang Moremi", "Lyle Foster"};
+            case 21: return new String[]{"Matěj Kovář", "Vladimír Coufal", "Štěpán Chaloupek", "Robin Hranáč", "Ladislav Krejčí", "Jaroslav Zelený", "Tomáš Souček", "Lukáš Provod", "Alexandr Sojka", "Pavel Šulc", "Patrik Schick"};
+            case 22: return new String[]{"Yann Sommer", "Silvan Widmer", "Manuel Akanji", "Fabian Schär", "Ricardo Rodríguez", "Granit Xhaka", "Remo Freuler", "Michel Aebischer", "Dan Ndoye", "Breel Embolo", "Ruben Vargas"};
+            case 23: return new String[]{"Diogo Costa", "Diogo Dalot", "Rúben Dias", "Pepe", "Nuno Mendes", "João Palhinha", "Vitinha", "Bruno Fernandes", "Bernardo Silva", "Cristiano Ronaldo", "Rafael Leão"};
+            case 24: return new String[]{"Mohamed El Shenawy", "Mohamed Hany", "Rami Rabia", "Mohamed Abdelmonem", "Mohamed Hamdy", "Marwan Attia", "Hamdy Fathi", "Zizo", "Mohamed Salah", "Mostafa Mohamed", "Trezeguet"};
+            case 25: return new String[]{"Carlos Coronel", "Iván Ramírez", "Gustavo Gómez", "Omar Alderete", "Matías Espinoza", "Andrés Cubas", "Mathías Villasanti", "Damián Bobadilla", "Miguel Almirón", "Julio Enciso", "Alex Arce"};
+            case 26: return new String[]{"Angus Gunn", "Ralston Anthony", "Ryan Porteous", "Grant Hanley", "Kieran Tierney", "Andrew Robertson", "Billy Gilmour", "Callum McGregor", "Scott McTominay", "John McGinn", "Che Adams"};
+            case 27: return new String[]{"Johny Placide", "Carlens Arcus", "Ricardo Adé", "Jean-Kévin Duverne", "Alex Christian", "Leverton Pierre", "Danley Jean Jacques", "Bryan Alceus", "Duckens Nazon", "Frantzdy Pierrot", "Louicius Don Deedson"};
+            case 28: return new String[]{"Amine Gouiri", "Anthony Mandrea", "Yousef Atal", "Aïssa Mandi", "Ramy Bensebaini", "Rayan Aït-Nouri", "Nabil Bentaleb", "Ismaël Bennacer", "Houssem Aouar", "Riyad Mahrez", "Baghdad Bounedjah"};
+            case 29: return new String[]{"Luis Malagón", "Jorge Sánchez", "César Montes", "Johan Vásquez", "Jesús Gallardo", "Edson Álvarez", "Luis Chávez", "Erick Sánchez", "Hirving Lozano", "Julián Quiñones", "Santiago Giménez"};
+            case 30: return new String[]{"Yassine Bounou", "Achraf Hakimi", "Nayef Aguerd", "Romain Saïss", "Noussair Mazraoui", "Sofyan Amrabat", "Azzedine Ounahi", "Brahim Díaz", "Hakim Ziyech", "Youssef En-Nesyri", "Sofiane Boufal"};
+            case 31: return new String[]{"Alexander Schlager", "Stefan Posch", "Kevin Danso", "David Alaba", "Maximilian Wöber", "Nicolas Seiwald", "Xaver Schlager", "Marcel Sabitzer", "Christoph Baumgartner", "Michael Gregoritsch", "Marko Arnautović"};
+            case 32: return new String[]{"Ørjan Nyland", "Julian Ryerson", "Kristoffer Ajer", "Torbjørn Heggem", "David Møller Wolfe", "Sander Berge", "Patrick Berg", "Martin Ødegaard", "Alexander Sørloth", "Antonio Nusa", "Erling Haaland"};
+            case 33: return new String[]{"Nikola Vasilj", "Amar Dedić", "Dennis Hadžikadunić", "Tarik Muharemović", "Sead Kolašinac", "Benjamin Tahirović", "Armin Gigović", "Ivan Bašić", "Esmir Bajraktarević", "Ermedin Demirović", "Edin Džeko"};
+            case 34: return new String[]{"Aymen Dahmen", "Yan Valery", "Montassar Talbi", "Omar Rekik", "Ali Abdi", "Ellyes Skhiri", "Rani Khedira", "Hannibal Mejbri", "Elias Achouri", "Ismaël Gharbi", "Hazem Mastouri"};
+            case 35: return new String[]{"Dominik Livaković", "Josip Stanišić", "Josip Šutalo", "Joško Gvardiol", "Borna Sosa", "Luka Modrić", "Mateo Kovačić", "Petar Sučić", "Andrej Kramarić", "Ante Budimi", "Ivan Perišić"};
+            case 36: return new String[]{"Bart Verbruggen", "Denzel Dumfries", "Stefan de Vrij", "Virgil van Dijk", "Nathan Aké", "Jerdy Schouten", "Tijjani Reijnders", "Xavi Simons", "Jeremie Frimpong", "Memphis Depay", "Cody Gakpo"};
+            case 37: return new String[]{"Sergio Rochet", "Nahitan Nández", "Ronald Araújo", "José María Giménez", "Mathías Olivera", "Manuel Ugarte", "Federico Valverde", "Rodrigo Bentancur", "Facundo Pellistri", "Darwin Núñez", "Maximiliano Araújo"};
+            case 38: return new String[]{"Meshaal Barsham", "Pedro Miguel", "Lucas Mendes", "Boualem Khoukh", "Tarek Salman", "Fatai Mohed", "Ahmed Fathy", "Jassem Gaber", "Hassan Al-Haydos", "Almoez Ali", "Akram Afif"};
+            case 39: return new String[]{"Mathew Ryan", "Lewis Miller", "Harry Souttar", "Kye Rowles", "Aziz Behich", "Connor Metcalfe", "Jackson Irvine", "Aiden O'Neill", "Martin Boyle", "Kusini Yengi", "Craig Goodwin"};
+            case 40: return new String[]{"Max Crocombe", "Tim Payne", "Tyler Bindon", "Nando Pijnaker", "Liberato Cacace", "Joe Bell", "Marko Stamenic", "Matthew Garbett", "Elijah Just", "Chris Wood", "Ben Old"};
+            case 41: return new String[]{"Édouard Mendy", "Formose Mendy", "Kalidou Koulibaly", "Moussa Niakhaté", "Ismail Jakobs", "Pape Matar Sarr", "Idrissa Gueye", "Lamine Camara", "Ismaïla Sarr", "Nicolas Jackson", "Sadio Mané"};
+            case 42: return new String[]{"Lawrence Ati-Zigi", "Alidu Seidu", "Alexander Djiku", "Mohammed Salisu", "Gideon Mensah", "Thomas Partey", "Salis Abdul Samed", "Mohammed Kudus", "Ernest Nuamah", "Iñaki Williams", "Jordan Ayew"};
+            case 43: return new String[]{"Orlando Mosquera", "Michael Amir Murillo", "Edgardo Fariña", "José Córdoba", "Roderick Miller", "Eric Davis", "Adalberto Carrasquilla", "Cristian Martínez", "Yoel Bárcenas", "José Fajardo", "José Luis Rodríguez"};
+            case 44: return new String[]{"Jalal Hassan", "Hussein Ali", "Saad Natiq", "Rebin Sulaka", "Merchas Doski", "Amir Al-Ammari", "Osama Rashid", "Zidane Iqbal", "Ibrahim Bayesh", "Aymen Hussein", "Ali Jasim"};
+            case 45: return new String[]{"Viktor Johansson", "Emil Krafth", "Isak Hien", "Victor Lindelöf", "Ludwig Augustinsson", "Jens Cajuste", "Anton Salétros", "Dejan Kulusevski", "Alexander Isak", "Anthony Elanga", "Viktor Gyökeres"};
+            case 46: return new String[]{"Eloy Room", "Nathangelo Markelo", "Sherel Floranus", "Cuco Martina", "Jurien Gaari", "Vurnon Anita", "Juninho Bacuna", "Leandro Bacuna", "Brandley Kuwas", "Rangelo Janga", "Kenji Gorré"};
+            case 47: return new String[]{"Alireza Beiranvand", "Ramin Rezaeian", "Hossein Kanaanizadegan", "Shojae Khalilzadeh", "Milad Mohammadi", "Saeid Ezatolahi", "Saman Ghoddos", "Ahmad Nourollahi", "Alireza Jahanbakhsh", "Mehdi Taremi", "Sardar Azmoun"};
+            case 48: return new String[]{"Utkir Yusupov", "Husniddin Alikulov", "Abdukodir Khusanov", "Umar Eshmurodov", "Sherzod Nasrullaev", "Otabek Shukurov", "Odiljon Hamrobekov", "Azizbek Turgunboev,", "Jaloliddin Masharipov", "Abbasbek Fayzullaev", "Eldor Shomurodov"};
+            default: return new String[]{};
         }
     }
 
     // =========================================================================
-    // 3. TABLA DE POSICIONES CON CONTROL LÓGICO ESTRICTO
+    // 3. TABLA DE POSICIONES CON CONTROL LÓGICO ESTRICTO Y PAGINACIÓN
     // =========================================================================
     private static void menuTablaPosiciones(Scanner sc) {
         int subOpc = 0;
         do {
-            System.out.println("\n--- TABLA DE POSICIONES INTERACTIVA ---");
-            System.out.println("1. Ver Tabla Completa");
-            System.out.println("2. Registrar/Modificar Estadísticas de un País");
-            System.out.println("3. Volver al Menú Principal");
+            System.out.println("\n╔════════════════════════════════════════════════╗");
+            System.out.println("║       TABLA DE POSICIONES INTERACTIVA          ║");
+            System.out.println("╠════════════════════════════════════════════════╣");
+            System.out.println("║ 1. Ver Tabla Completa (Paginada)               ║");
+            System.out.println("║ 2. Registrar/Modificar Estadísticas de un País ║");
+            System.out.println("║ 3. Volver al Menú Principal                    ║");
+            System.out.println("╚════════════════════════════════════════════════╝");
             System.out.print("Opción: ");
-            subOpc = sc.nextInt();
-
-            if (subOpc == 1) {
-                mostrarTabla();
-            } else if (subOpc == 2) {
-                modificarEstadisticas(sc);
+            
+            try {
+                subOpc = sc.nextInt();
+                if (subOpc == 1) {
+                    mostrarTabla(sc);
+                } else if (subOpc == 2) {
+                    modificarEstadisticas(sc);
+                    esperarEnter();
+                }
+            } catch (Exception e) {
+                System.out.println("Entrada inválida.");
+                sc.nextLine(); // limpiar buffer
             }
         } while (subOpc != 3);
     }
 
-    private static void mostrarTabla() {
-        System.out.println("\n+----+-------------------+----+----+----+----+----+----+----+-----+");
-        System.out.println("| ID | País              | PJ | PG | PE | PP | GF | GC | DG | PTS |");
-        System.out.println("+----+-------------------+----+----+----+----+----+----+----+-----+");
-        for (int i = 0; i < 48; i++) {
-            System.out.printf("| %2d | %-17s | %2d | %2d | %2d | %2d | %2d | %2d | %2d | %3d |\n",
-                (i + 1), PAISES[i],
-                tablaStats[i][0], tablaStats[i][1], tablaStats[i][2], tablaStats[i][3],
-                tablaStats[i][4], tablaStats[i][5], tablaStats[i][6], tablaStats[i][7]);
+    private static void mostrarTabla(Scanner sc) {
+        int paginaActual = 0;
+        int itemsPorPagina = 5;
+        int totalPaginas = (int) Math.ceil((double) PAISES.length / itemsPorPagina);
+        boolean salir = false;
+
+        while (!salir) {
+            System.out.println("\n+----+-------------------+----+----+----+----+----+----+----+-----+");
+            System.out.println("| ID | País              | PJ | PG | PE | PP | GF | GC | DG | PTS |");
+            System.out.println("+----+-------------------+----+----+----+----+----+----+----+-----+");
+
+            int inicio = paginaActual * itemsPorPagina;
+            int fin = Math.min(inicio + itemsPorPagina, PAISES.length);
+
+            for (int i = inicio; i < fin; i++) {
+                System.out.printf("| %2d | %-17s | %2d | %2d | %2d | %2d | %2d | %2d | %2d | %3d |\n",
+                    (i + 1), PAISES[i],
+                    tablaStats[i][0], tablaStats[i][1], tablaStats[i][2], tablaStats[i][3],
+                    tablaStats[i][4], tablaStats[i][5], tablaStats[i][6], tablaStats[i][7]);
+            }
+            System.out.println("+----+-------------------+----+----+----+----+----+----+----+-----+");
+            System.out.println(" Página " + (paginaActual + 1) + " de " + totalPaginas);
+            System.out.println(" Opciones: [S] Siguiente pág. | [A] Anterior pág. | [Q] Salir de la tabla");
+            System.out.print(" -> ");
+
+            String accion = sc.next().toUpperCase();
+            if (accion.equals("S")) {
+                if (paginaActual < totalPaginas - 1) {
+                    paginaActual++;
+                } else {
+                    System.out.println("\n[!] Ya estás en la última página.");
+                }
+            } else if (accion.equals("A")) {
+                if (paginaActual > 0) {
+                    paginaActual--;
+                } else {
+                    System.out.println("\n[!] Ya estás en la primera página.");
+                }
+            } else if (accion.equals("Q")) {
+                salir = true;
+            } else {
+                System.out.println("\n[!] Opción no válida. Usa S, A o Q.");
+            }
         }
-        System.out.println("+----+-------------------+----+----+----+----+----+----+----+-----+");
     }
 
     private static void modificarEstadisticas(Scanner sc) {
@@ -434,11 +444,13 @@ public class MegaMundial {
     // =========================================================================
     // 4. CALENDARIO DE PARTIDOS
     // =========================================================================
-   
- private static void menuCalendario(Scanner sc) {
-        System.out.println("\n=== CALENDARIO DE PARTIDOS DESTACADOS ===");
-        System.out.println("1. Ver Calendario Completo por Fechas");
-        System.out.println("2. Buscar Partidos por País");
+    private static void menuCalendario(Scanner sc) {
+        System.out.println("\n╔══════════════════════════════════════════════╗");
+        System.out.println("║      CALENDARIO DE PARTIDOS DESTACADOS       ║");
+        System.out.println("╠══════════════════════════════════════════════╣");
+        System.out.println("║ 1. Ver Calendario Completo por Fechas        ║");
+        System.out.println("║ 2. Buscar Partidos por País                  ║");
+        System.out.println("╚══════════════════════════════════════════════╝");
         System.out.print("Opción: ");
         int opc = sc.nextInt();
 
@@ -451,9 +463,9 @@ public class MegaMundial {
             System.out.println("\n--- FASE ELIMINATORIA ---");
             System.out.println("[Dieciseisavos de Final] 28 de Junio al 3 de Julio");
             System.out.println("[Octavos de Final]       4 de Julio al 7 de Julio");
-            System.out.println("[Cuartos de Final]      9 de Julio al 11 de Julio");
-            System.out.println("[Semifinales]           14 y 15 de Julio");
-            System.out.println("[GRAN FINAL]            19 de Julio");
+            System.out.println("[Cuartos de Final]       9 de Julio al 11 de Julio");
+            System.out.println("[Semifinales]            14 y 15 de Julio");
+            System.out.println("[GRAN FINAL]             19 de Julio");
         } else if (opc == 2) {
             System.out.print("Ingrese el número del país (1-48): ");
             int p = sc.nextInt();
@@ -464,14 +476,20 @@ public class MegaMundial {
                 System.out.println("País inválido.");
             }
         }
-}
+    }
 
     private static void mostrarAsciiArt() {
-        System.out.println("  __  __ _____ ____    __  __ _    _ _   _ _____ ___  _      ");
-        System.out.println(" |  \\/  | ____/ ___|  |  \\/  | |  | | \\ | | ____/ _ \\| |     ");
-        System.out.println(" | |\\/| |  _| \\___ \\  | |\\/| | |  | |  \\| |  _| | | | | |     ");
-        System.out.println(" | |  | | |___ ___) | | |  | | |__| | |\\  | |___| |_| | |___  ");
-        System.out.println(" |_|  |_|_____|____/  |_|  |_|\\____/|_| \\_|_____|\\___/|_____| ");
+        System.out.println("         MUNDIAL DE FÚTBOL 2026        ");
+        System.out.println("             ___________               ");
+        System.out.println("            '._==_==_=_.'              ");
+        System.out.println("            .-\\:      /-.              ");
+        System.out.println("           | (|:.     |) |             ");
+        System.out.println("            '-|:.     |-'              ");
+        System.out.println("              \\::.    /                ");
+        System.out.println("               '::. .'                 ");
+        System.out.println("                 ) (                   ");
+        System.out.println("               _.' '._                 ");
+        System.out.println("              `\"\"\"\"\"\"\"`                ");
         System.out.println("===============================================================");
     }
-}
+    }
